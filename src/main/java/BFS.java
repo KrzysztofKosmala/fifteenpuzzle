@@ -3,9 +3,14 @@ import java.util.*;
 public class BFS extends Strategies
 {
     private Queue<Node> frontier = new LinkedList<>();
-    private HashMap<int[],Node> explored = new HashMap<>();
+    private HashMap<String,Node> explored = new HashMap<>();
     private int[] howInt =  new int[4];
     private char[] howChar;
+    private int movesCounter=0;
+    private int allStates;
+    private int processedStates;
+    private int parentsCounter=0;
+    public int i=0;
 
     /*liczniki list oraz glebokosci do dopisania!*/
     public BFS(char[] how, int[] state)
@@ -15,16 +20,36 @@ public class BFS extends Strategies
         Node first = new Node();
         first.setStateInNode(state);
         first.setNullLocation();
+        first.setParentNullLocation2(first.getNullLocation());
+
         frontier.add(first);
-        explored.put(first.getStateInNode(),first);
-
-
+        explored.put(Arrays.toString(first.getStateInNode()),first);
     }
+
+    public int getMovesCounter()
+    {
+        return movesCounter;
+    }
+
+    public int getAllStates()
+    {
+        return explored.size();
+    }
+
+    public int getProcessedStates()
+    {
+        return explored.size()-frontier.size();
+    }
+
+    public int getParentsCounter()
+    {
+        return parentsCounter;
+    }
+
     public boolean findSolution()//do testów
     {
-        int j,i=0;
-//
-        while(!explored.containsKey(template))
+        int j;
+        while(!explored.containsKey(Arrays.toString(template)))
         {
 
             for(j=0;j<4;j++)
@@ -36,20 +61,28 @@ public class BFS extends Strategies
                 obj.setParentState(frontier.peek().getStateInNode());
                 obj.setStateInNode();
                 obj.setNullLocation2();
-                obj.move(howInt[j]);
-                if (Arrays.equals(obj.getStateInNode(), template)){System.out.println("done");return true;}
+                obj.setParentNullLocation();
+                if(obj.getFutureNullLocation()!=frontier.peek().getNullLocation())
+                {
+                    obj.move(howInt[j]);
+                    movesCounter++;
+
+                }
                 if(j==3)
                 {
                     frontier.poll();
                 }
-                if(!frontier.contains(obj)||!explored.containsKey(obj.getStateInNode()))
-                {
+
+                if(!ifExistsOnFrontier(obj.getStateInNode())||!explored.containsKey(Arrays.toString(obj.getStateInNode())))
+                {System.out.println(i);
+                    parentsCounter++;
                     frontier.add(obj);
-
-                    explored.put(obj.getStateInNode(),obj);
+                    explored.put(Arrays.toString(obj.getStateInNode()),obj);
                     obj.setOperator(howChar[j]);
-
+                    if (Arrays.equals(obj.getStateInNode(), template)){System.out.println("done");return true;}
                 }
+
+
 
                 i++;
             }
@@ -78,6 +111,16 @@ public class BFS extends Strategies
 
     }
 
+    private boolean ifExistsOnFrontier(int[] i )
+        {
+           for( Node a : frontier)
+           {
+               if( Arrays.equals(a.getStateInNode(),i))
+                   return true;
+
+           }
+           return false;
+        }
 
 
 

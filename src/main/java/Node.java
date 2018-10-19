@@ -6,6 +6,14 @@ public class Node
     private  int[] parentState ;
     private  int[] stateInNode ;
     private  int nullLocation;
+    private int parentNullLocation;
+    private int futureNullLocation=-1;
+
+    public void setParentNullLocation()
+    {
+        this.parentNullLocation = parent.getNullLocation();
+    }
+
     private Node parent;
     private char operator;
 
@@ -24,8 +32,19 @@ public class Node
         return parentState;
     }
 
+    public int getFutureNullLocation()
+    {
+        return futureNullLocation;
+    }
+
+    public void setFutureNullLocation(int futureNullLocation)
+    {
+        this.futureNullLocation = futureNullLocation;
+    }
+
     public  boolean checkRange(int T)
     {
+
 
         switch (T)
         {
@@ -33,9 +52,13 @@ public class Node
             case    -1: if(nullLocation==4||nullLocation==8||nullLocation==12) return false;
         }
 
-            if(nullLocation+T < 0 ||nullLocation+T >15)
+        if(nullLocation+T < 0 || nullLocation+T >15 )
             return false;
-        else return true;
+        else
+            {
+                this.futureNullLocation=nullLocation+T;
+                return true;
+            }
 
     }
     public  void setNullLocation()
@@ -87,6 +110,11 @@ public class Node
         stateInNode[nullLocation + T] = 0;
                 nullLocation = nullLocation + T;
 
+    }
+
+    public void setParentNullLocation2(int parentNullLocation)
+    {
+        this.parentNullLocation = parentNullLocation;
     }
 
     public char getOperator()
