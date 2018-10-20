@@ -8,7 +8,7 @@ public class Node
     private  int nullLocation;
     private int parentNullLocation;
     private int futureNullLocation=-1;
-
+    boolean b=true;
     public void setParentNullLocation()
     {
         this.parentNullLocation = parent.getNullLocation();
@@ -16,7 +16,6 @@ public class Node
 
     private Node parent;
     private char operator;
-
 
     public int[] getStateInNode()
     {
@@ -45,22 +44,35 @@ public class Node
     public  boolean checkRange(int T)
     {
 
-
-        switch (T)
+        if(T==1)
         {
-            case     1: if(nullLocation==3||nullLocation==7||nullLocation==11) return false;
-            case    -1: if(nullLocation==4||nullLocation==8||nullLocation==12) return false;
+            if(nullLocation==3||nullLocation==7||nullLocation==11)
+            {b=false; return b;}
+
+        }else if(T==-1)
+        {
+            if(nullLocation==4||nullLocation==8||nullLocation==12)
+            {b=false; return b;}
         }
 
         if(nullLocation+T < 0 || nullLocation+T >15 )
-            return false;
+        {
+            b=false;
+            return b;
+        }
         else
             {
-                this.futureNullLocation=nullLocation+T;
-                return true;
+               /* this.futureNullLocation=nullLocation+T;*/b=true;
+                return b;
             }
 
     }
+
+    public void setFutureNullLocation2(int T)
+    {
+        this.futureNullLocation=nullLocation+T;
+    }
+
     public  void setNullLocation()
     {
         nullLocation = IntStream.range(0, stateInNode.length)

@@ -53,39 +53,45 @@ public class BFS extends Strategies
         {
 
             for(j=0;j<4;j++)
-            if(frontier.peek().checkRange(howInt[j]))
             {
-                Node obj = new Node();
-
-                obj.setParent(frontier.peek());
-                obj.setParentState(frontier.peek().getStateInNode());
-                obj.setStateInNode();
-                obj.setNullLocation2();
-                obj.setParentNullLocation();
-                if(obj.getFutureNullLocation()!=frontier.peek().getNullLocation())
+                if (frontier.peek().checkRange(howInt[j]))
                 {
-                    obj.move(howInt[j]);
-                    movesCounter++;
+                    Node obj = new Node();
 
+                    obj.setParent(frontier.peek());
+                    obj.setParentState(frontier.peek().getStateInNode());
+                    obj.setStateInNode();
+                    obj.setNullLocation2();
+                    obj.setParentNullLocation();
+                    obj.setFutureNullLocation2(howInt[j]);
+                    if (obj.getFutureNullLocation() != frontier.peek().getNullLocation())
+                    {
+                        obj.move(howInt[j]);
+                        movesCounter++;
+
+                        if (!ifExistsOnFrontier(obj.getStateInNode()) || !explored.containsKey(Arrays.toString(obj.getStateInNode())))
+                        {
+                            obj.setOperator(howChar[j]);
+                            System.out.println(i);
+                            parentsCounter++;
+                            frontier.add(obj);
+                            explored.put(Arrays.toString(obj.getStateInNode()), obj);
+                            System.out.println(Arrays.toString(obj.getStateInNode()));
+                            if (Arrays.equals(obj.getStateInNode(), template))
+                            {
+                                System.out.println("done");
+                                return true;
+                            }
+                        }
+                    }
+
+                        }
+                    i++;
                 }
-                if(j==3)
+                if (j >= 3)
                 {
                     frontier.poll();
                 }
-
-                if(!ifExistsOnFrontier(obj.getStateInNode())||!explored.containsKey(Arrays.toString(obj.getStateInNode())))
-                {System.out.println(i);
-                    parentsCounter++;
-                    frontier.add(obj);
-                    explored.put(Arrays.toString(obj.getStateInNode()),obj);
-                    obj.setOperator(howChar[j]);
-                    if (Arrays.equals(obj.getStateInNode(), template)){System.out.println("done");return true;}
-                }
-
-
-
-                i++;
-            }
         }return false;
     }
 
