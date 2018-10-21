@@ -8,14 +8,19 @@ public class Node
     private  int nullLocation;
     private int parentNullLocation;
     private int futureNullLocation=-1;
-    boolean b=true;
+    private int parentCounter;
+    private Node parent;
+    private char operator;
+
+
+    public Node() {
+
+    }
+
     public void setParentNullLocation()
     {
         this.parentNullLocation = parent.getNullLocation();
     }
-
-    private Node parent;
-    private char operator;
 
     public int[] getStateInNode()
     {
@@ -26,6 +31,7 @@ public class Node
     {
         parentState=tab;
     }
+
     public  int[] getParentState()
     {
         return parentState;
@@ -41,29 +47,32 @@ public class Node
         this.futureNullLocation = futureNullLocation;
     }
 
+    public Node getParent()
+    {
+        return parent;
+    }
+
     public  boolean checkRange(int T)
     {
 
         if(T==1)
         {
             if(nullLocation==3||nullLocation==7||nullLocation==11)
-            {b=false; return b;}
+            {return false;}
 
         }else if(T==-1)
         {
             if(nullLocation==4||nullLocation==8||nullLocation==12)
-            {b=false; return b;}
+            {return false;}
         }
 
         if(nullLocation+T < 0 || nullLocation+T >15 )
         {
-            b=false;
-            return b;
+            return false;
         }
         else
             {
-               /* this.futureNullLocation=nullLocation+T;*/b=true;
-                return b;
+                return true;
             }
 
     }
@@ -80,13 +89,10 @@ public class Node
                                         .findFirst()
                                         .orElse(-1);
     }
+
     public  void setNullLocation2()
     {
         nullLocation = parent.getNullLocation();
-    }
-    public Node()
-    {
-
     }
 
     public int getNullLocation()
@@ -105,8 +111,13 @@ public class Node
         stateInNode = s.clone();
     }
 
+    public int getParentCounter() {
+        return parentCounter;
+    }
+
     public void setParent(Node parent)
     {
+        parentCounter++;
         this.parent = parent;
     }
 

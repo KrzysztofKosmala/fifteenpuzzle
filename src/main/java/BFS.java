@@ -4,6 +4,7 @@ public class BFS extends Strategies
 {
     private Queue<Node> frontier = new LinkedList<>();
     private HashMap<String,Node> explored = new HashMap<>();
+    private ArrayList<Node> parentsLine = new ArrayList<>();
     private int[] howInt =  new int[4];
     private char[] howChar;
     private int movesCounter=0;
@@ -11,6 +12,7 @@ public class BFS extends Strategies
     private int processedStates;
     private int parentsCounter=0;
     public int i=0;
+    private Node solved=null;
 
     /*liczniki list oraz glebokosci do dopisania!*/
     public BFS(char[] how, int[] state)
@@ -21,7 +23,6 @@ public class BFS extends Strategies
         first.setStateInNode(state);
         first.setNullLocation();
         first.setParentNullLocation2(first.getNullLocation());
-
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
     }
@@ -46,7 +47,7 @@ public class BFS extends Strategies
         return parentsCounter;
     }
 
-    public boolean findSolution()//do testów
+    public boolean findSolution()
     {
         int j;
         while(!explored.containsKey(Arrays.toString(template)))
@@ -79,8 +80,8 @@ public class BFS extends Strategies
                             System.out.println(Arrays.toString(obj.getStateInNode()));
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
-                                System.out.println("done");
-                                return true;
+                                solved=obj;
+                                System.out.println("done");return true;
                             }
                         }
                     }
@@ -128,6 +129,38 @@ public class BFS extends Strategies
            return false;
         }
 
+    private void setFamilyLine()
+    {
 
+        while(parentsLine.get(parentsLine.size()).getParent()!=null)
+        {
+            setFamilyLineLoop(parentsLine.get(parentsLine.size()));
+        }
 
+    }
+
+    private void setFamilyLineLoop(Node child)
+    {
+            Node help;
+            help=child.getParent();
+            parentsLine.add(help);
+    }
+
+    public char[] getFamilyLine()
+    {
+        parentsLine.add(solved);
+        setFamilyLine();
+
+        String help;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i=parentsLine.size(); i==0; i--)
+        {
+            stringBuilder.append(parentsLine.get(i).getOperator());
+        }
+        help = stringBuilder.toString();
+
+        return help.toCharArray();
+    }
 }
+
