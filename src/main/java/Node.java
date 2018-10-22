@@ -11,7 +11,24 @@ public class Node
     private int parentCounter;
     private Node parent;
     private char operator;
+    private static int rows, columns;
+    private static int[] borders;
 
+    public void setBorders()
+    {
+        borders= new int[columns-1];
+        int r=rows-1;
+        borders[0]=r;
+        for(int i=1; i<columns-1; i++)
+        {
+            borders[i]=borders[i-1]+rows;
+        }
+    }
+    public void setRowsAndColumns(int r,int c)
+    {
+        rows = r;
+        columns = c;
+    }
 
     Node()
     {
@@ -53,21 +70,26 @@ public class Node
         return parent;
     }
 
-    boolean checkRange(int T)
+    boolean checkRange(int T)//do przerobki
     {
 
         if(T==1)
         {
-            if(nullLocation==3||nullLocation==7||nullLocation==11)
-            {return false;}
-
+            for(int i=0; i<columns-1; i++)
+            {
+                if(borders[i]==nullLocation)
+                    return false;
+            }
         }else if(T==-1)
         {
-            if(nullLocation==4||nullLocation==8||nullLocation==12)
-            {return false;}
+            for(int i=0; i<columns-1; i++)
+            {
+                if(borders[i]+1==nullLocation)
+                    return false;
+            }
         }
 
-        return nullLocation + T >= 0 && nullLocation + T <= 15;
+        return nullLocation + T >= 0 && nullLocation + T <= rows*columns-1;
 
     }
 

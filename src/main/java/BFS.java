@@ -5,7 +5,7 @@ public class BFS extends Strategies
     private Queue<Node> frontier = new LinkedList<>();
     private HashMap<String,Node> explored = new HashMap<>();
     private ArrayList<Node> parentsLine = new ArrayList<>();
-    private int rows,columns;//do dopisania wielowymiarowość!
+
     private int[] howInt =  new int[4];
     private char[] howChar;
     public int i=0;
@@ -14,13 +14,15 @@ public class BFS extends Strategies
     /*liczniki list oraz glebokosci do dopisania!*/
     BFS(char[] how, int[] state, int rows, int columns)
     {
-        this.rows=rows;
-        this.columns=columns;
+        super(rows,columns);
+
         howChar=how.clone();
         charToInt(how);
         Node first = new Node();
+        first.setRowsAndColumns(rows,columns);
         first.setStateInNode(state);
         first.setNullLocation();
+        first.setBorders();
         first.setParentNullLocation2(first.getNullLocation());
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
@@ -101,10 +103,10 @@ public class BFS extends Strategies
                 howInt[i]=1;
             }else if(how[i]=='D')
             {
-                howInt[i]=4;
+                howInt[i]=rows;
             }else if(how[i]=='U')
             {
-                howInt[i]=-4;
+                howInt[i]=-rows;
             }else if(how[i]=='L')
             {
                 howInt[i]=-1;

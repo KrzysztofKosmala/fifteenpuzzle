@@ -2,10 +2,17 @@
 
 public abstract class Strategies
 {
-    protected final int[] template ;
-
-    public Strategies()
+    protected int[] template ;
+    protected int rows, columns;
+    Strategies(int r, int c)
     {
-        template = new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0};
+        this.rows=r;
+        this.columns=c;
+        template = new int[r*c];
+        for(int i=0;i<r*c; i++)
+        {
+            template[i]=i+1;
+        }
+        template[r*c-1]=0;
     }
 }
