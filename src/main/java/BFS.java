@@ -4,52 +4,49 @@ public class BFS extends Strategies
 {
     private Queue<Node> frontier = new LinkedList<>();
     private HashMap<String,Node> explored = new HashMap<>();
+    private ArrayList<Node> parentsLine = new ArrayList<>();
+    private int rows,columns;//do dopisania wielowymiarowość!
     private int[] howInt =  new int[4];
     private char[] howChar;
-    private int movesCounter=0;
-    private int allStates;
-    private int processedStates;
-    private int parentsCounter=0;
     public int i=0;
+    private Node solved=null;
 
     /*liczniki list oraz glebokosci do dopisania!*/
-    public BFS(char[] how, int[] state)
+    BFS(char[] how, int[] state, int rows, int columns)
     {
+        this.rows=rows;
+        this.columns=columns;
         howChar=how.clone();
         charToInt(how);
         Node first = new Node();
         first.setStateInNode(state);
         first.setNullLocation();
         first.setParentNullLocation2(first.getNullLocation());
-
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
     }
 
-    public int getMovesCounter()
-    {
-        return movesCounter;
-    }
 
-    public int getAllStates()
+
+    int getAllStates()
     {
         return explored.size();
     }
 
-    public int getProcessedStates()
+    int getProcessedStates()
     {
         return explored.size()-frontier.size();
     }
 
     public int getParentsCounter()
     {
-        return parentsCounter;
+        return parentsLine.size();
     }
 
-    public boolean findSolution()//do testów
+    boolean findSolution()
     {
         int j;
-        while(!explored.containsKey(Arrays.toString(template)))
+        while(!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
         {
 
             for(j=0;j<4;j++)
@@ -67,20 +64,20 @@ public class BFS extends Strategies
                     if (obj.getFutureNullLocation() != frontier.peek().getNullLocation())
                     {
                         obj.move(howInt[j]);
-                        movesCounter++;
+
 
                         if (!ifExistsOnFrontier(obj.getStateInNode()) || !explored.containsKey(Arrays.toString(obj.getStateInNode())))
                         {
                             obj.setOperator(howChar[j]);
                             System.out.println(i);
-                            parentsCounter++;
+
                             frontier.add(obj);
                             explored.put(Arrays.toString(obj.getStateInNode()), obj);
                             System.out.println(Arrays.toString(obj.getStateInNode()));
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
-                                System.out.println("done");
-                                return true;
+                                solved=obj;
+                                System.out.println("done");return true;
                             }
                         }
                     }
@@ -128,6 +125,38 @@ public class BFS extends Strategies
            return false;
         }
 
+    private void setFamilyLine()
+    {
 
+        while(parentsLine.get(parentsLine.size()-1).getParent()!=null)
+        {
+            setFamilyLineLoop(parentsLine.get(parentsLine.size()-1));
+        }
 
+    }
+
+    private void setFamilyLineLoop(Node child)
+    {
+            Node help;
+            help=child.getParent();
+            parentsLine.add(help);
+    }
+
+    char[] getFamilyLine()
+    {
+        parentsLine.add(solved);
+        setFamilyLine();
+
+        String help;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i=parentsLine.size()-2; i>=0; i--)
+        {
+            stringBuilder.append(parentsLine.get(i).getOperator());
+        }
+        help = stringBuilder.toString();
+
+        return help.toCharArray();
+    }
 }
+

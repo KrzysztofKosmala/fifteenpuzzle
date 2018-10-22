@@ -8,30 +8,37 @@ public class Node
     private  int nullLocation;
     private int parentNullLocation;
     private int futureNullLocation=-1;
-    boolean b=true;
-    public void setParentNullLocation()
+    private int parentCounter;
+    private Node parent;
+    private char operator;
+
+
+    Node()
+    {
+
+    }
+
+    void setParentNullLocation()
     {
         this.parentNullLocation = parent.getNullLocation();
     }
 
-    private Node parent;
-    private char operator;
-
-    public int[] getStateInNode()
+    int[] getStateInNode()
     {
         return stateInNode;
     }
 
-    public  void setParentState(int[] tab)
+    void setParentState(int[] tab)
     {
         parentState=tab;
     }
+
     public  int[] getParentState()
     {
         return parentState;
     }
 
-    public int getFutureNullLocation()
+    int getFutureNullLocation()
     {
         return futureNullLocation;
     }
@@ -41,81 +48,79 @@ public class Node
         this.futureNullLocation = futureNullLocation;
     }
 
-    public  boolean checkRange(int T)
+    Node getParent()
+    {
+        return parent;
+    }
+
+    boolean checkRange(int T)
     {
 
         if(T==1)
         {
             if(nullLocation==3||nullLocation==7||nullLocation==11)
-            {b=false; return b;}
+            {return false;}
 
         }else if(T==-1)
         {
             if(nullLocation==4||nullLocation==8||nullLocation==12)
-            {b=false; return b;}
+            {return false;}
         }
 
-        if(nullLocation+T < 0 || nullLocation+T >15 )
-        {
-            b=false;
-            return b;
-        }
-        else
-            {
-               /* this.futureNullLocation=nullLocation+T;*/b=true;
-                return b;
-            }
+        return nullLocation + T >= 0 && nullLocation + T <= 15;
 
     }
 
-    public void setFutureNullLocation2(int T)
+    void setFutureNullLocation2(int T)
     {
         this.futureNullLocation=nullLocation+T;
     }
 
-    public  void setNullLocation()
+    void setNullLocation()
     {
         nullLocation = IntStream.range(0, stateInNode.length)
                                         .filter(i -> 0 == stateInNode[i])
                                         .findFirst()
                                         .orElse(-1);
     }
-    public  void setNullLocation2()
+
+    void setNullLocation2()
     {
         nullLocation = parent.getNullLocation();
     }
-    public Node()
-    {
 
-    }
-
-    public int getNullLocation()
+    int getNullLocation()
     {
         return nullLocation;
     }
 
-    public void setStateInNode()
+    void setStateInNode()
     {
         //if(state!=null)
         stateInNode = parentState.clone();
     }
-    public void setStateInNode(int[] s)
+    void setStateInNode(int[] s)
     {
         //if(state!=null)
         stateInNode = s.clone();
     }
 
-    public void setParent(Node parent)
+    public int getParentCounter() {
+        return parentCounter;
+    }
+
+    void setParent(Node parent)
     {
+        parentCounter++;
         this.parent = parent;
     }
 
-    public void setOperator(char operator)
+    void setOperator(char operator)
     {
         this.operator = operator;
     }
 
-    public void move(int T)
+    void move(int T)
     {
 
         stateInNode[nullLocation] = stateInNode[nullLocation + T];
@@ -124,12 +129,12 @@ public class Node
 
     }
 
-    public void setParentNullLocation2(int parentNullLocation)
+    void setParentNullLocation2(int parentNullLocation)
     {
         this.parentNullLocation = parentNullLocation;
     }
 
-    public char getOperator()
+    char getOperator()
     {
         return operator;
     }
