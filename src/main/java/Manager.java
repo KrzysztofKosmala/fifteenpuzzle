@@ -23,7 +23,7 @@ public class Manager
         if(strategy.equals("bfs"))
         {
 
-            BFS algorithm = new BFS(how.toCharArray(),initialState, rows, columns);
+            Strategies algorithm = new BFS(how.toCharArray(),initialState, rows, columns);
             Arrays.toString(initialState);
             isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
@@ -37,7 +37,14 @@ public class Manager
 
         else if(strategy.equals("dfs"))
         {
-            //
+            Strategies algorithm = new DFS(how.toCharArray(),initialState, rows, columns);
+            isSolutionFound=algorithm.findSolution();
+            solutionMoves=algorithm.getFamilyLine();
+            System.out.println(Arrays.toString(solutionMoves));
+            elapsedTimeNano = System.nanoTime() - start;
+            elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
+            saveSolution(solutionPath,solutionMoves);
+            saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
         }
 
         else if(strategy.equals("astr"))
