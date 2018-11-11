@@ -9,13 +9,12 @@ public class DFS extends Strategies
 
     DFS(char[] how, int[] state, int rows, int columns)
     {
-        super( how, rows, columns);
+        super(how, rows, columns);
 
         Node first = makeFirstNode(state);
         frontier.addFirst(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
 
-        
     }
     @Override
     public boolean findSolution()
@@ -31,6 +30,8 @@ public class DFS extends Strategies
                     Node obj = new Node();
 
                     obj.setParent(frontier.get(i));
+
+
                     obj.setParentState(frontier.get(i).getStateInNode());
                     obj.setStateInNode();
                     obj.setNullLocation2();
@@ -39,10 +40,8 @@ public class DFS extends Strategies
                     if (obj.getFutureNullLocation() != frontier.get(i).getNullLocation())
                     {
                         obj.move(howInt[j]);
-
-
                     }
-                    if (!ifExistsOnFrontier(obj.getStateInNode()) )
+                    if (!ifExistsOnFrontier(obj.getStateInNode()) && !ifExistOnExplored(obj.getStateInNode()))
                     {
                         obj.setOperator(howChar[j]);
 
@@ -55,13 +54,14 @@ public class DFS extends Strategies
                             solved = obj;
                             return true;
                         }
+                        i++;
                     }
-                    i++;
+
                 }
 
 
             }
-            if( !explored.containsKey(Arrays.toString(frontier.getFirst().getParentState())))
+            if(!ifExistOnExplored(frontier.getFirst().getParentState()))
             {
                 explored.put(Arrays.toString(frontier.getFirst().getParentState()), frontier.getFirst().getParent());
             }
@@ -81,6 +81,11 @@ public class DFS extends Strategies
 
         }
         return false;
+    }
+
+    private boolean ifExistOnExplored(int[] i)
+    {
+        return explored.containsKey(Arrays.toString(i));
     }
 
     @Override

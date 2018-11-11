@@ -78,8 +78,6 @@ public abstract class Strategies
         parentsLine.add(help);
     }
 
-
-
     char[] getFamilyLine()
     {
         parentsLine.add(solved);
@@ -96,6 +94,8 @@ public abstract class Strategies
 
         return help.toCharArray();
     }
+
+
     protected abstract   boolean ifExistsOnFrontier(int[] i );
 
     public abstract boolean findSolution();

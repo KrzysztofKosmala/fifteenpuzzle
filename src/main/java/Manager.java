@@ -53,6 +53,7 @@ public class Manager
         }
         }
 
+
     private void loadInitialValues(String path)
     {
         try (Stream<String> stream = Files.lines(Paths.get(path)))
