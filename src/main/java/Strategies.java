@@ -17,7 +17,7 @@ public abstract class Strategies
     {
         setTemplate(r,c);
         howChar=how.clone();
-        charToInt(how);
+
 
     }
 
@@ -59,7 +59,7 @@ public abstract class Strategies
     }
 
 
-    protected abstract   boolean ifExistsOnFrontier(int[] i );
+    protected abstract boolean ifExistsOnFrontier(int[] i );
     protected abstract int getAllStates();
     protected abstract int getProcessedStates();
 
@@ -75,7 +75,7 @@ public abstract class Strategies
         }
         template[r*c-1]=0;
     }
-    private void charToInt(char[] how)
+    void charToInt(char[] how)
     {
         for (int i=0; i<4; i++)
         {

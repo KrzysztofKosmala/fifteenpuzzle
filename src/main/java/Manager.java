@@ -49,7 +49,15 @@ public class Manager
 
         else if(strategy.equals("astr"))
         {
-            //
+            Strategies algorithm = new ASTAR(how.toCharArray(),initialState, rows, columns);
+            isSolutionFound=algorithm.findSolution();
+            System.out.println(isSolutionFound);
+            solutionMoves=algorithm.getFamilyLine();
+            System.out.println(Arrays.toString(solutionMoves));
+            elapsedTimeNano = System.nanoTime() - start;
+            elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
+            saveSolution(solutionPath,solutionMoves);
+            saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
         }
     }
 
@@ -77,7 +85,6 @@ public class Manager
             e.printStackTrace();
         }
     }
-
     private void saveSolution(String path, char[] familyLine)
     {
         File fout = new File(path);
@@ -107,7 +114,7 @@ public class Manager
 
     }
     private void saveStats(String path, int parentsLineSize, int allStates, int exploredStates, double time)
-        {
+    {
             File fout = new File(path);
             FileOutputStream fos = null;
             try

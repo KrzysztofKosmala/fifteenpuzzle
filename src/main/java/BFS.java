@@ -5,9 +5,6 @@ public class BFS extends Strategies
     private Queue<Node> frontier = new LinkedList<>();
     private HashMap<String,Node> explored = new HashMap<>();
 
-
-
-
     public int i=0;
 
 
@@ -15,11 +12,12 @@ public class BFS extends Strategies
     BFS(char[] how, int[] state, int rows, int columns)
     {
         super( how, rows, columns);
-
+        charToInt(how);
         Node first = makeFirstNode(state);
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
     }
+
 
 
     @Override
@@ -32,8 +30,6 @@ public class BFS extends Strategies
     {
         return explored.size()-frontier.size();
     }
-
-
     @Override
     public boolean findSolution()
     {
@@ -80,18 +76,17 @@ public class BFS extends Strategies
             frontier.poll();
         }return false;
     }
-
-@Override
-protected boolean ifExistsOnFrontier(int[] i )
-{
-    for( Node a : frontier)
+    @Override
+    protected boolean ifExistsOnFrontier(int[] i )
     {
-        if( Arrays.equals(a.getStateInNode(),i))
-            return true;
+        for( Node a : frontier)
+        {
+            if( Arrays.equals(a.getStateInNode(),i))
+                return true;
 
+        }
+        return false;
     }
-    return false;
-}
 
 
 

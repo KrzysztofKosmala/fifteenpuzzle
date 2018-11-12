@@ -10,7 +10,7 @@ public class DFS extends Strategies
     DFS(char[] how, int[] state, int rows, int columns)
     {
         super(how, rows, columns);
-
+        charToInt(how);
         Node first = makeFirstNode(state);
         frontier.addFirst(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
@@ -80,13 +80,11 @@ public class DFS extends Strategies
     {
         return explored.containsKey(Arrays.toString(i));
     }
-
     @Override
     protected int getAllStates()
     {
         return 0;//nie wiem
     }
-
     @Override
     protected int getProcessedStates()
     {
