@@ -3,12 +3,16 @@ import java.util.Arrays;
 
 public abstract class Strategies
 {
-    protected int[] template ;
-    protected int rows, columns;
-    protected char[] howChar;
-    protected int[] howInt =  new int[4];
-    protected ArrayList<Node> parentsLine = new ArrayList<>();
-    protected Node solved=null;
+    Node solved=null;
+    int[] template ;
+    char[] howChar;
+    int[] howInt =  new int[4];
+
+    private int rows, columns;
+    private ArrayList<Node> parentsLine = new ArrayList<>();
+
+
+
     Strategies(char[] how, int r, int c)
     {
         setTemplate(r,c);
@@ -16,6 +20,48 @@ public abstract class Strategies
         charToInt(how);
 
     }
+
+
+
+    public abstract boolean findSolution();
+    public int getParentsCounter()
+
+    {
+        return parentsLine.size();
+    }
+
+
+    char[] getFamilyLine()
+    {
+        parentsLine.add(solved);
+        setFamilyLine();
+
+        String help;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i=parentsLine.size()-2; i>=0; i--)
+        {
+            stringBuilder.append(parentsLine.get(i).getOperator());
+        }
+        help = stringBuilder.toString();
+
+        return help.toCharArray();
+    }
+    Node makeFirstNode(int[] state)
+    {
+        Node first = new Node();
+        first.setRowsAndColumns(rows,columns);
+        first.setStateInNode(state);
+        first.setNullLocation();
+        first.setBorders();
+        first.setParentNullLocation2(first.getNullLocation());
+        return first;
+    }
+
+
+    protected abstract   boolean ifExistsOnFrontier(int[] i );
+    protected abstract int getAllStates();
+    protected abstract int getProcessedStates();
 
 
     private void setTemplate(int r, int c)
@@ -50,17 +96,6 @@ public abstract class Strategies
         }
 
     }
-    protected Node makeFirstNode(int[] state)
-    {
-        Node first = new Node();
-        first.setRowsAndColumns(rows,columns);
-        first.setStateInNode(state);
-        first.setNullLocation();
-        first.setBorders();
-        first.setParentNullLocation2(first.getNullLocation());
-        return first;
-    }
-
     private void setFamilyLine()
     {
 
@@ -70,7 +105,6 @@ public abstract class Strategies
         }
 
     }
-
     private void setFamilyLineLoop(Node child)
     {
         Node help;
@@ -78,35 +112,4 @@ public abstract class Strategies
         parentsLine.add(help);
     }
 
-    char[] getFamilyLine()
-    {
-        parentsLine.add(solved);
-        setFamilyLine();
-
-        String help;
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for(int i=parentsLine.size()-2; i>=0; i--)
-        {
-            stringBuilder.append(parentsLine.get(i).getOperator());
-        }
-        help = stringBuilder.toString();
-
-        return help.toCharArray();
-    }
-
-
-    protected abstract   boolean ifExistsOnFrontier(int[] i );
-
-    public abstract boolean findSolution();
-
-    protected abstract int getAllStates();
-
-    protected abstract int getProcessedStates();
-
-    public int getParentsCounter()
-
-    {
-        return parentsLine.size();
-    }
 }

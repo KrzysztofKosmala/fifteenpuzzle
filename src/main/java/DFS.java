@@ -30,13 +30,12 @@ public class DFS extends Strategies
                     Node obj = new Node();
 
                     obj.setParent(frontier.get(i));
-
-
                     obj.setParentState(frontier.get(i).getStateInNode());
                     obj.setStateInNode();
                     obj.setNullLocation2();
                     obj.setParentNullLocation();
                     obj.setFutureNullLocation2(howInt[j]);
+
                     if (obj.getFutureNullLocation() != frontier.get(i).getNullLocation())
                     {
                         obj.move(howInt[j]);
@@ -44,10 +43,7 @@ public class DFS extends Strategies
                     if (!ifExistsOnFrontier(obj.getStateInNode()) && !ifExistOnExplored(obj.getStateInNode()))
                     {
                         obj.setOperator(howChar[j]);
-
-
                         frontier.addFirst(obj);
-
                         //   System.out.println(Arrays.toString(obj.getStateInNode()));
                         if (Arrays.equals(obj.getStateInNode(), template))
                         {
@@ -56,10 +52,7 @@ public class DFS extends Strategies
                         }
                         i++;
                     }
-
                 }
-
-
             }
             if(!ifExistOnExplored(frontier.getFirst().getParentState()))
             {

@@ -51,7 +51,7 @@ public class Manager
         {
             //
         }
-        }
+    }
 
 
     private void loadInitialValues(String path)
