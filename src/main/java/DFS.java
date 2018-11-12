@@ -10,7 +10,7 @@ public class DFS extends Strategies
     DFS(char[] how, int[] state, int rows, int columns)
     {
         super(how, rows, columns);
-        charToInt(how);
+        tabCharToTabInt(how);
         Node first = makeFirstNode(state);
         frontier.addFirst(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);

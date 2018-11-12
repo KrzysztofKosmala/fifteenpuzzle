@@ -75,7 +75,7 @@ public abstract class Strategies
         }
         template[r*c-1]=0;
     }
-    void charToInt(char[] how)
+    void tabCharToTabInt(char[] how)
     {
         for (int i=0; i<4; i++)
         {

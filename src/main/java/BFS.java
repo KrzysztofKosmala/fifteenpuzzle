@@ -12,7 +12,7 @@ public class BFS extends Strategies
     BFS(char[] how, int[] state, int rows, int columns)
     {
         super( how, rows, columns);
-        charToInt(how);
+        tabCharToTabInt(how);
         Node first = makeFirstNode(state);
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);

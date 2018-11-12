@@ -10,6 +10,39 @@ public class ASTAR extends Strategies
     private int[] howInt; // ustawione na sztywno bo kolejność nie ma znaczenia,
                                                 // i tak algorytm wybierze najbardziej opłacalne przejście
 
+    class InnerStateAndMove
+    {
+        Integer[] intTab;
+        int move;
+
+        public InnerStateAndMove(Integer[] intTab, int move)
+        {
+            this.intTab = intTab;
+            this.move = move;
+        }
+
+        public Integer[] getIntTab()
+        {
+            return intTab;
+        }
+
+        public void setIntTab(Integer[] intTab)
+        {
+            this.intTab = intTab;
+        }
+
+        public int getMove()
+        {
+            return move;
+        }
+
+        public void setMove(int move)
+        {
+            this.move = move;
+        }
+    }
+
+
     private char[] howCharHeuristic;
     ASTAR(char[] how, int[] state, int rows, int columns)
     {
@@ -36,7 +69,7 @@ public class ASTAR extends Strategies
                 while(!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
                 {
                     int price = 0;
-                    LinkedHashMap<Integer, Integer[]> helper = new LinkedHashMap<>();
+                    LinkedHashMap<Integer, InnerStateAndMove> helper = new LinkedHashMap<>();
                     for (j = 0; j < 4; j++)
                     {
                         if (frontier.peek().checkRange(howInt[j]))
@@ -44,7 +77,7 @@ public class ASTAR extends Strategies
                             helper.put(
                                         getHammingDistance(Arrays.stream(hypotheticalMove(frontier.peek().getStateInNode(),
                                                 frontier.peek().getNullLocation(), howInt[j])).mapToInt(Integer::intValue).toArray()),
-                                        hypotheticalMove(frontier.peek().getStateInNode(), frontier.peek().getNullLocation(), howInt[j])
+                                    new InnerStateAndMove(hypotheticalMove(frontier.peek().getStateInNode(), frontier.peek().getNullLocation(), howInt[j]),howInt[j])
 
                                         );
 
@@ -52,17 +85,17 @@ public class ASTAR extends Strategies
 
                     }
                     j--;
-                    Map.Entry<Integer, Integer[]> minEntry = helper.entrySet().stream()
+                    Map.Entry<Integer, InnerStateAndMove> minEntry = helper.entrySet().stream()
                                                             .min(Map.Entry.comparingByKey()).get();
 
                     Node obj = new Node();
 
                     obj.setParent(frontier.peek());
                     obj.setParentState(frontier.peek().getStateInNode());
-                    obj.setStateInNode(Arrays.stream(minEntry.getValue()).mapToInt(Integer::intValue).toArray());
+                    obj.setStateInNode(Arrays.stream(minEntry.getValue().getIntTab()).mapToInt(Integer::intValue).toArray());
                     obj.setNullLocation();
                     obj.setParentNullLocation();
-                    obj.setOperator(howCharHeuristic[j]);
+                    obj.setOperator(intToChar(minEntry.getValue().getMove()));
 
 
                     if(!ifExistsOnFrontier(obj.getStateInNode()) && !ifExistOnExplored(obj.getStateInNode()))
@@ -131,7 +164,19 @@ public class ASTAR extends Strategies
 
         return  Arrays.stream( innerState ).boxed().toArray( Integer[]::new );
     }
+    private char intToChar(int move)
+    {
 
+            if(move==-1)
+                return 'L';
+            else if(move==1)
+                return 'R';
+            else if(move==-4)
+                return 'U';
+            else if(move==4)
+                return 'D';
+        return 0;
+    }
 
 
     @Override
