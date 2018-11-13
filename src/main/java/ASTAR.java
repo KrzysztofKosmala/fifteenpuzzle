@@ -43,7 +43,6 @@ public class ASTAR extends Strategies
     }
 
 
-    private char[] howCharHeuristic;
     ASTAR(char[] how, int[] state, int rows, int columns)
     {
         super( how, rows, columns);
@@ -51,7 +50,6 @@ public class ASTAR extends Strategies
         Node first = makeFirstNode(state);
         frontier.add(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
-        howCharHeuristic = new char[]{'R','D','U','L'};
         howInt = new int[]{1,4,-4,1};
     }
 
@@ -61,32 +59,31 @@ public class ASTAR extends Strategies
     public boolean findSolution()
     {
 
-
-
-            if(Arrays.equals(new String("hamm").toCharArray(),howChar))
-            {
                 int j;
                 while(!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
                 {
-                    int price = 0;
                     LinkedHashMap<Integer, InnerStateAndMove> helper = new LinkedHashMap<>();
                     for (j = 0; j < 4; j++)
                     {
-                        if (frontier.peek().checkRange(howInt[j]))
+                        if (frontier.peek().checkRange(howInt[j]))// mozna to jakos poprawic bo nie potrzebnie ciagle sprawdza jaka to heurystyka ale to jesli wgo dobrze dziala bede robil
                         {
-                            helper.put(
-                                        getHammingDistance(Arrays.stream(hypotheticalMove(frontier.peek().getStateInNode(),
-                                                frontier.peek().getNullLocation(), howInt[j])).mapToInt(Integer::intValue).toArray()),
-                                    new InnerStateAndMove(hypotheticalMove(frontier.peek().getStateInNode(), frontier.peek().getNullLocation(), howInt[j]),howInt[j])
+                            if(Arrays.equals("hamm".toCharArray(),howChar))
+                            helper.put  (
+                                        getHammingDistance(Arrays.stream(hypotheticalMove(frontier.peek().getStateInNode(),frontier.peek().getNullLocation(), howInt[j])).mapToInt(Integer::intValue).toArray()),
 
+                                        new InnerStateAndMove(hypotheticalMove(frontier.peek().getStateInNode(), frontier.peek().getNullLocation(), howInt[j]),howInt[j])
                                         );
+                            else if(Arrays.equals("manh".toCharArray(),howChar))
+                                helper.put  (
+                                            getManhattanDistance(Arrays.stream(hypotheticalMove(frontier.peek().getStateInNode(),frontier.peek().getNullLocation(), howInt[j])).mapToInt(Integer::intValue).toArray()),
 
+                                            new InnerStateAndMove(hypotheticalMove(frontier.peek().getStateInNode(), frontier.peek().getNullLocation(), howInt[j]),howInt[j])
+                                            );
                         }
-
                     }
                     j--;
-                    Map.Entry<Integer, InnerStateAndMove> minEntry = helper.entrySet().stream()
-                                                            .min(Map.Entry.comparingByKey()).get();
+
+                    Map.Entry<Integer, InnerStateAndMove> minEntry = helper.entrySet().stream().min(Map.Entry.comparingByKey()).get();
 
                     Node obj = new Node();
 
@@ -100,7 +97,7 @@ public class ASTAR extends Strategies
 
                     if(!ifExistsOnFrontier(obj.getStateInNode()) && !ifExistOnExplored(obj.getStateInNode()))
                     frontier.addFirst(obj);
-
+                    helper.clear();
 
 
                     if (Arrays.equals(obj.getStateInNode(), template))
@@ -118,16 +115,6 @@ public class ASTAR extends Strategies
 
                 return false;
 
-            }else if(howChar.equals("manh"))
-            {
-
-
-
-            return true;
-
-            }
-            return false;
-
     }
 
     private boolean ifExistOnExplored(int[] i)
@@ -138,10 +125,7 @@ public class ASTAR extends Strategies
     {
         int a =0;
 
-        int nullLocation = IntStream.range(0, tab.length)
-                .filter(i -> 0 == tab[i])
-                .findFirst()
-                .orElse(-1);
+        int nullLocation = findZero(tab);
 
         for(int i=0; i<tab.length; i++)
         {
@@ -153,7 +137,17 @@ public class ASTAR extends Strategies
 
         return new Integer(a);
     }
-
+    private Integer getManhattanDistance(int[] tab)
+    {
+        int zero = findZero(tab);
+        int sum = 0;
+        for (int i=0; i<tab.length; i++)
+        {
+            if (i != zero)
+                sum += (Math.abs(tab[i] - template[i]));
+        }
+            return new Integer(sum);
+    }
 
     private Integer[] hypotheticalMove(int[] state,int nullLocation, int move)
     {
@@ -178,6 +172,14 @@ public class ASTAR extends Strategies
         return 0;
     }
 
+    private int findZero(int[] tab)
+    {
+        int nullLocation = IntStream.range(0, tab.length)
+                .filter(i -> 0 == tab[i])
+                .findFirst()
+                .orElse(-1);
+        return nullLocation;
+    }
 
     @Override
     protected boolean ifExistsOnFrontier(int[] i)
@@ -192,12 +194,14 @@ public class ASTAR extends Strategies
     }
 
     @Override
-    protected int getAllStates() {
+    protected int getAllStates()
+    {
         return 0;
     }
 
     @Override
-    protected int getProcessedStates() {
+    protected int getProcessedStates()
+    {
         return 0;
     }
 
