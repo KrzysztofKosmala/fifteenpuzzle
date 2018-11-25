@@ -10,6 +10,7 @@ public class ASTAR extends Strategies
     private int[] howInt; // ustawione na sztywno bo kolejność nie ma znaczenia,
                                                 // i tak algorytm wybierze najbardziej opłacalne przejście
 
+
     class InnerStateAndMove
     {
         Integer[] intTab;
@@ -56,7 +57,7 @@ public class ASTAR extends Strategies
 
 
     @Override
-    public boolean findSolution()
+    public void findSolution()
     {
 
                 int j;
@@ -65,7 +66,7 @@ public class ASTAR extends Strategies
                     LinkedHashMap<Integer, InnerStateAndMove> helper = new LinkedHashMap<>();
                     for (j = 0; j < 4; j++)
                     {
-                        if (frontier.peek().checkRange(howInt[j]))// mozna to jakos poprawic bo nie potrzebnie ciagle sprawdza jaka to heurystyka ale to jesli wgo dobrze dziala bede robil
+                        if (frontier.peekFirst().checkRange(howInt[j]))// mozna to jakos poprawic bo nie potrzebnie ciagle sprawdza jaka to heurystyka ale to jesli wgo dobrze dziala bede robil
                         {
                             if(Arrays.equals("hamm".toCharArray(),howChar))
                             helper.put  (
@@ -103,7 +104,8 @@ public class ASTAR extends Strategies
                     if (Arrays.equals(obj.getStateInNode(), template))
                     {
                         solved=obj;
-                        return true;
+                        find=true;
+                        return ;
                     }if(j==3)
                     {
                         explored.put(Arrays.toString(frontier.getLast().getStateInNode()),frontier.getLast());
@@ -113,7 +115,7 @@ public class ASTAR extends Strategies
                     j=0;
                 }
 
-                return false;
+
 
     }
 

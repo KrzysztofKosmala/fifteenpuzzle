@@ -5,6 +5,9 @@ public class BFS extends Strategies
     private Queue<Node> frontier = new LinkedList<>();
     private HashMap<String,Node> explored = new HashMap<>();
 
+
+
+
     public int i=0;
 
 
@@ -31,7 +34,7 @@ public class BFS extends Strategies
         return explored.size()-frontier.size();
     }
     @Override
-    public boolean findSolution()
+    public void findSolution()
     {
         int j;
         while(!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
@@ -57,7 +60,7 @@ public class BFS extends Strategies
                         if (!ifExistsOnFrontier(obj.getStateInNode()) || !explored.containsKey(Arrays.toString(obj.getStateInNode())))
                         {
                             obj.setOperator(howChar[j]);
-                            System.out.println(i);
+                          //  System.out.println(i);
 
                             frontier.add(obj);
                             explored.put(Arrays.toString(obj.getStateInNode()), obj);
@@ -65,7 +68,8 @@ public class BFS extends Strategies
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved=obj;
-                                return true;
+                                find = true;
+                                return ;
                             }
                         }
                     }
@@ -74,7 +78,7 @@ public class BFS extends Strategies
                     i++;
                 }
             frontier.poll();
-        }return false;
+        }
     }
     @Override
     protected boolean ifExistsOnFrontier(int[] i )
