@@ -1,1 +1,0 @@
-dfs RDUL C:\Users\Krzysiek\Desktop\Repozytorium\fifteenpuzzle\zbiory\4x4_03_00003.txt C:\Users\Krzysiek\Desktop\Repozytorium\fifteenpuzzle\zbiory\4x4_03_00003_dfs_rdul_sol.txt C:\Users\Krzysiek\Desktop\Repozytorium\fifteenpuzzle\zbiory\4x4_03_00003_dfs_rdul_stats.txt
