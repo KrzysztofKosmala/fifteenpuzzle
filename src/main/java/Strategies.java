@@ -6,7 +6,7 @@ public abstract class Strategies
     int[] template ;
     char[] howChar;
     int[] howInt =  new int[4];
-    boolean find=false;
+
     private int rows, columns;
     protected ArrayList<Node> parentsLine = new ArrayList<>();
 
@@ -22,7 +22,7 @@ public abstract class Strategies
 
 
 
-    public abstract void findSolution();
+    public abstract boolean findSolution();
     public int getParentsCounter()
 
     {
@@ -111,9 +111,6 @@ public abstract class Strategies
         help=child.getParent();
         parentsLine.add(help);
     }
-    public boolean isFind()
-    {
-        return find;
-    }
+
 
 }

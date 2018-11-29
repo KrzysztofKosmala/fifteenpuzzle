@@ -22,7 +22,7 @@ public class DFS extends Strategies
 
     }
     @Override
-    public void findSolution()
+    public boolean findSolution()
     {
         int x=0;
         while (!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
@@ -59,19 +59,19 @@ public class DFS extends Strategies
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved = obj;
-                                find = true;
-                                return ;
+
+                                return true;
                             }
                             i++;
                         }
                     }
-                    if(getParents(obj)-1>=30 || x>=3)
+                    if(getParents(obj)-1>=25 || x>=3)
                     {
                         frontier.clear();
                         frontier.add(node);
                         x=0;
 
-                        findSolution();
+                       return findSolution();
 
                     }
                 }
@@ -87,6 +87,7 @@ public class DFS extends Strategies
 
         }
 
+        return false;
     }
 
     @Override

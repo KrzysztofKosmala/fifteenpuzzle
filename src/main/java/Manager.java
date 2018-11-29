@@ -26,9 +26,8 @@ public class Manager
             Strategies algorithm = new BFS(how.toCharArray(),initialState, rows, columns);
             Arrays.toString(initialState);
 
-            algorithm.findSolution();
-            isSolutionFound=((BFS) algorithm).isFind();
 
+            isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
            // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
@@ -42,8 +41,7 @@ public class Manager
         {
             Strategies algorithm = new DFS(how.toCharArray(),initialState, rows, columns);
 
-            algorithm.findSolution();
-            isSolutionFound=((DFS) algorithm).isFind();
+            isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
            // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;

@@ -34,7 +34,7 @@ public class BFS extends Strategies
         return explored.size()-frontier.size();
     }
     @Override
-    public void findSolution()
+    public boolean findSolution()
     {
         int j;
         while(!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
@@ -68,8 +68,7 @@ public class BFS extends Strategies
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved=obj;
-                                find = true;
-                                return ;
+                                return true;
                             }
                         }
                     }
@@ -78,7 +77,7 @@ public class BFS extends Strategies
                     i++;
                 }
             frontier.poll();
-        }
+        }return false;
     }
     @Override
     protected boolean ifExistsOnFrontier(int[] i )

@@ -57,7 +57,7 @@ public class ASTAR extends Strategies
 
 
     @Override
-    public void findSolution()
+    public boolean findSolution()
     {
 
                 int j;
@@ -104,8 +104,8 @@ public class ASTAR extends Strategies
                     if (Arrays.equals(obj.getStateInNode(), template))
                     {
                         solved=obj;
-                        find=true;
-                        return ;
+
+                        return true;
                     }if(j==3)
                     {
                         explored.put(Arrays.toString(frontier.getLast().getStateInNode()),frontier.getLast());
@@ -116,7 +116,7 @@ public class ASTAR extends Strategies
                 }
 
 
-
+return false;
     }
 
     private boolean ifExistOnExplored(int[] i)
