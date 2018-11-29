@@ -25,9 +25,12 @@ public class Manager
 
             Strategies algorithm = new BFS(how.toCharArray(),initialState, rows, columns);
             Arrays.toString(initialState);
-            isSolutionFound=algorithm.findSolution();
+
+            algorithm.findSolution();
+            isSolutionFound=((BFS) algorithm).isFind();
+
             solutionMoves=algorithm.getFamilyLine();
-            System.out.println(Arrays.toString(solutionMoves));
+           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
@@ -38,27 +41,33 @@ public class Manager
         else if(strategy.equals("dfs"))
         {
             Strategies algorithm = new DFS(how.toCharArray(),initialState, rows, columns);
-            isSolutionFound=algorithm.findSolution();
+
+            algorithm.findSolution();
+            isSolutionFound=((DFS) algorithm).isFind();
             solutionMoves=algorithm.getFamilyLine();
-            System.out.println(Arrays.toString(solutionMoves));
+           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
             saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
         }
 
-        else if(strategy.equals("astr"))
+       /* else if(strategy.equals("astr"))
         {
             Strategies algorithm = new ASTAR(how.toCharArray(),initialState, rows, columns);
-            isSolutionFound=algorithm.findSolution();
-            System.out.println(isSolutionFound);
+
+            algorithm.findSolution();
+            isSolutionFound=algorithm.
+
+
+          //  System.out.println(isSolutionFound);
             solutionMoves=algorithm.getFamilyLine();
-            System.out.println(Arrays.toString(solutionMoves));
+           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
             saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
-        }
+        }*/
     }
 
 

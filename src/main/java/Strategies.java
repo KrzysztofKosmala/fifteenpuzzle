@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public abstract class Strategies
 {
@@ -7,9 +6,9 @@ public abstract class Strategies
     int[] template ;
     char[] howChar;
     int[] howInt =  new int[4];
-
+    boolean find=false;
     private int rows, columns;
-    private ArrayList<Node> parentsLine = new ArrayList<>();
+    protected ArrayList<Node> parentsLine = new ArrayList<>();
 
 
 
@@ -23,7 +22,7 @@ public abstract class Strategies
 
 
 
-    public abstract boolean findSolution();
+    public abstract void findSolution();
     public int getParentsCounter()
 
     {
@@ -33,6 +32,7 @@ public abstract class Strategies
 
     char[] getFamilyLine()
     {
+        parentsLine.clear();
         parentsLine.add(solved);
         setFamilyLine();
 
@@ -96,7 +96,7 @@ public abstract class Strategies
         }
 
     }
-    private void setFamilyLine()
+    protected void setFamilyLine()
     {
 
         while(parentsLine.get(parentsLine.size()-1).getParent()!=null)
@@ -105,11 +105,15 @@ public abstract class Strategies
         }
 
     }
-    private void setFamilyLineLoop(Node child)
+    protected void setFamilyLineLoop(Node child)
     {
         Node help;
         help=child.getParent();
         parentsLine.add(help);
+    }
+    public boolean isFind()
+    {
+        return find;
     }
 
 }
