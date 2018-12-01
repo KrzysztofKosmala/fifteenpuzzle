@@ -33,7 +33,7 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
 
         }
 
@@ -47,25 +47,21 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
         }
 
-       /* else if(strategy.equals("astr"))
+        else if(strategy.equals("astr"))
         {
             Strategies algorithm = new ASTAR(how.toCharArray(),initialState, rows, columns);
 
-            algorithm.findSolution();
-            isSolutionFound=algorithm.
-
-
-          //  System.out.println(isSolutionFound);
+            isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
            // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,solutionMoves.length,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
-        }*/
+            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+        }
     }
 
 

@@ -8,7 +8,7 @@ public class ASTAR extends Strategies
     private HashMap<String,Node> explored = new HashMap<>();
 
     private int[] howInt; // ustawione na sztywno bo kolejność nie ma znaczenia,
-                                                // i tak algorytm wybierze najbardziej opłacalne przejście
+                        // i tak algorytm wybierze najbardziej opłacalne przejście
 
 
     class InnerStateAndMove
@@ -104,7 +104,7 @@ public class ASTAR extends Strategies
                     if (Arrays.equals(obj.getStateInNode(), template))
                     {
                         solved=obj;
-
+                        parentInCurrnetNode=getParents(obj);
                         return true;
                     }if(j==3)
                     {

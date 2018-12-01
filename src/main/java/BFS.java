@@ -68,6 +68,8 @@ public class BFS extends Strategies
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved=obj;
+
+                                parentInCurrnetNode=getParents(obj);
                                 return true;
                             }
                         }

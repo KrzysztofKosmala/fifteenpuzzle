@@ -10,7 +10,7 @@ public abstract class Strategies
     private int rows, columns;
     protected ArrayList<Node> parentsLine = new ArrayList<>();
 
-
+    int parentInCurrnetNode=0;
 
     Strategies(char[] how, int r, int c)
     {
@@ -96,7 +96,7 @@ public abstract class Strategies
         }
 
     }
-    protected void setFamilyLine()
+    private void setFamilyLine()
     {
 
         while(parentsLine.get(parentsLine.size()-1).getParent()!=null)
@@ -105,12 +105,19 @@ public abstract class Strategies
         }
 
     }
-    protected void setFamilyLineLoop(Node child)
+    private void setFamilyLineLoop(Node child)
     {
         Node help;
         help=child.getParent();
         parentsLine.add(help);
     }
 
+    int getParents(Node node)
+    {
+        parentsLine.clear();
+        parentsLine.add(node);
+        setFamilyLine();
+        return parentsLine.size()-1;
+    }
 
 }
