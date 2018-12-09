@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+
 public class DFS extends Strategies
 {
     private LinkedList<Node> frontier = new LinkedList<>();
@@ -19,13 +20,14 @@ public class DFS extends Strategies
         node=first;
         frontier.addFirst(first);
         explored.put(Arrays.toString(first.getStateInNode()),first);
+        processedStates++;
 
     }
     @Override
     public boolean findSolution()
     {
         parentInCurrnetNode=0;
-        int x=0;
+
         while (!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
             {
                 int i=0;
@@ -41,49 +43,71 @@ public class DFS extends Strategies
 
                         obj.setParentState(frontier.get(i).getStateInNode());
                         obj.setParent(frontier.get(i));
-                        x++;
+
                         obj.setStateInNode();
                         obj.setNullLocation2();
                         obj.setParentNullLocation();
                         obj.setFutureNullLocation2(howInt[j]);
 
-                        if (obj.getFutureNullLocation() != frontier.get(i).getNullLocation() )
+                        if (obj.getFutureNullLocation() != frontier.get(i).getParentNullLocation() )
                         {
                             obj.move(howInt[j]);
 
-                            if (!ifExistsOnFrontier(obj.getStateInNode()) && !ifExistOnExplored(obj.getStateInNode()))
+                            obj.setParentCounter(getParents(obj));
+
+                               if (!ifExistsOnFrontier(obj.getStateInNode()) &&  ifExistsOnExploredAdvanced(obj))
                             {
+
                                 obj.setOperator(howChar[j]);
                                 frontier.addFirst(obj);
-                                x=0;
+
+
+                                visitedStates++;
                                 if (Arrays.equals(obj.getStateInNode(), template))
                                 {
                                     solved = obj;
-                                    parentInCurrnetNode=getParents(obj);
+
                                     return true;
                                 }
                                 i++;
+
+                                parentInCurrnetNode=obj.getParentCounter();
+
+                                if(parentInCurrnetNode>maxDepthOfRecursion)
+                                {
+                                    maxDepthOfRecursion=parentInCurrnetNode;
+                                }
                             }
+
                         }
                     }
                 }
-                parentInCurrnetNode=getParents(frontier.getFirst());
+
+
 
                 /*
                 Jeśli utowrzony stan należy do pokolenia n(czyt. do maksymalnej możliwej liczby pokoleń rodziców określonej w zadaniu)
-                 to jego rodzic zostaje uznany jako przeszukany i trafia na explored a stan wraz ze wszystkimi innymi wyprodukowanymi
-                 przez tego samoego rodzica zostają usunięte
-                 */
-                if(parentInCurrnetNode>=4 && i!=0)
+                to jego rodzic zostaje uznany jako przeszukany i trafia na explored a stan wraz ze wszystkimi innymi wyprodukowanymi
+                przez tego samoego rodzica zostają usunięte
+
+                */
+
+                    if(parentInCurrnetNode>=20 && i!=0)
                 {
                     if (!ifExistOnExplored(frontier.getFirst().getParentState()))
                     {
-                        explored.put(Arrays.toString(frontier.getFirst().getParentState()), frontier.getFirst().getParent());
-                    }
-                    frontier.remove(frontier.getFirst().getParent());
 
-                    for(int k=0; k<i; k++)
-                        frontier.remove(0);
+                        explored.put(Arrays.toString(frontier.getFirst().getParentState()), frontier.getFirst().getParent());
+                        processedStates++;
+
+                    }
+
+                        frontier.remove(frontier.getFirst().getParent());
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            frontier.removeFirst();
+                        }
 
 
                 }
@@ -92,30 +116,34 @@ public class DFS extends Strategies
                 trafia do explored i zostaje usunięty
                 */
                 else if(i==0)
-                {
-                    if (!ifExistOnExplored(frontier.getFirst().getParentState()))
                     {
-                        explored.put(Arrays.toString(frontier.getFirst().getStateInNode()), frontier.getFirst());
+
+                        if (!ifExistOnExplored(frontier.getFirst().getStateInNode()))
+                        {
+                            explored.put(Arrays.toString(frontier.getFirst().getStateInNode()), frontier.getFirst());
+                            processedStates++;
+                        }
+                        frontier.removeFirst();
                     }
-                    frontier.removeFirst();
-                }
+
+
                 /*
                 w pozostałych przypadkach rodzic po wyprodukowaniu wszystkich swoich ruchów zostaje uznany za przeszukany i trafia na expolred
                 */
                 else
                 {
 
-                    if (!ifExistOnExplored(frontier.getFirst().getParentState()))
+                    if (!ifExistOnExplored(frontier.getFirst().getParentState())  )
                     {
-
                         explored.put(Arrays.toString(frontier.getFirst().getParentState()), frontier.getFirst().getParent());
-
+                        processedStates++;
                     }
 
                         frontier.remove(frontier.getFirst().getParent());
 
 
-                }parentInCurrnetNode = 0;
+                }
+                parentInCurrnetNode = 0;
             }
 
         return false;
@@ -137,16 +165,32 @@ public class DFS extends Strategies
     {
         return explored.containsKey(Arrays.toString(i));
     }
-    @Override
-    protected int getAllStates()
+
+    private boolean ifExistsOnExploredAdvanced(Node node)
     {
-        return 0;//nie wiem
+        if(explored.containsKey(Arrays.toString(node.getStateInNode())) )
+        {
+
+            if(explored.get(Arrays.toString(node.getStateInNode())).getParentCounter()<node.getParentCounter())
+            {
+                return false;
+            }
+        }
+        explored.remove(Arrays.toString(node.getStateInNode()));
+        return true;
+
+    }
+    @Override
+    protected int getVisitedStates()
+    {
+        return visitedStates;
     }
     @Override
     protected int getProcessedStates()
     {
-        return explored.size();
+        return processedStates;
     }
+
 
 
 

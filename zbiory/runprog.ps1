@@ -79,7 +79,7 @@ function RunAstr([string]$heuristic) {
 
 function RunAll() {
     
-    RunDfs
+    
     RunAstr
 }
 

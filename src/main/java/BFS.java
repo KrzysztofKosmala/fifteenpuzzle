@@ -24,9 +24,9 @@ public class BFS extends Strategies
 
 
     @Override
-    public int getAllStates()
+    public int getVisitedStates()
     {
-        return explored.size();
+        return visitedStates;
     }
     @Override
     public int getProcessedStates()
@@ -52,7 +52,7 @@ public class BFS extends Strategies
                     obj.setNullLocation2();
                     obj.setParentNullLocation();
                     obj.setFutureNullLocation2(howInt[j]);
-                    if (obj.getFutureNullLocation() != frontier.peek().getNullLocation())
+                    if (obj.getFutureNullLocation() != frontier.peek().getParentNullLocation())
                     {
                         obj.move(howInt[j]);
 
@@ -60,11 +60,11 @@ public class BFS extends Strategies
                         if (!ifExistsOnFrontier(obj.getStateInNode()) || !explored.containsKey(Arrays.toString(obj.getStateInNode())))
                         {
                             obj.setOperator(howChar[j]);
-                          //  System.out.println(i);
 
+                            visitedStates++;
                             frontier.add(obj);
                             explored.put(Arrays.toString(obj.getStateInNode()), obj);
-                        //   System.out.println(Arrays.toString(obj.getStateInNode()));
+
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved=obj;

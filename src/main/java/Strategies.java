@@ -11,6 +11,14 @@ public abstract class Strategies
     protected ArrayList<Node> parentsLine = new ArrayList<>();
 
     int parentInCurrnetNode=0;
+    int processedStates=0;
+    int visitedStates=0;
+    int maxDepthOfRecursion=0;
+
+    public Node getSolved()
+    {
+        return solved;
+    }
 
     Strategies(char[] how, int r, int c)
     {
@@ -28,7 +36,10 @@ public abstract class Strategies
     {
         return parentsLine.size();
     }
-
+    public ArrayList<Node> getParentsLine()
+    {
+        return parentsLine;
+    }
 
     char[] getFamilyLine()
     {
@@ -60,7 +71,7 @@ public abstract class Strategies
 
 
     protected abstract boolean ifExistsOnFrontier(int[] i );
-    protected abstract int getAllStates();
+    protected abstract int getVisitedStates();
     protected abstract int getProcessedStates();
 
 
@@ -96,7 +107,7 @@ public abstract class Strategies
         }
 
     }
-    private void setFamilyLine()
+    void setFamilyLine()
     {
 
         while(parentsLine.get(parentsLine.size()-1).getParent()!=null)
@@ -105,7 +116,7 @@ public abstract class Strategies
         }
 
     }
-    private void setFamilyLineLoop(Node child)
+    void setFamilyLineLoop(Node child)
     {
         Node help;
         help=child.getParent();
@@ -119,5 +130,19 @@ public abstract class Strategies
         setFamilyLine();
         return parentsLine.size()-1;
     }
+
+
+    public ArrayList<Node> getParentsLine(Node node)
+    {
+        parentsLine.clear();
+        parentsLine.add(node);
+        setFamilyLine();
+        return parentsLine;
+    }
+    int getMaxDepthOfRecursion()
+    {
+        return maxDepthOfRecursion;
+    }
+
 
 }

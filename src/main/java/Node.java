@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.stream.IntStream;
 
 public class Node
@@ -8,18 +9,41 @@ public class Node
     private int[] parentState ;
     private int[] stateInNode ;
     private int nullLocation;
+
+
+
     private int parentNullLocation;
     private int futureNullLocation=-1;
+
     private int parentCounter;
 
     private char operator;
 
     private Node parent;
-
+//tylko na potrzeby astar
+    private int cost=-1;
     Node()
     { }
 
 
+    public int getCost()
+    {
+        return cost;
+    }
+
+    public void setCost(int cost)
+    {
+        this.cost = cost;
+    }
+
+    public void setParentCounter(int parentCounter)
+    {
+        this.parentCounter = parentCounter;
+    }
+    public int getParentNullLocation()
+    {
+        return parentNullLocation;
+    }
     public void setFutureNullLocation(int futureNullLocation)
     {
         this.futureNullLocation = futureNullLocation;

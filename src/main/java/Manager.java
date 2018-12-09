@@ -33,7 +33,7 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
 
         }
 
@@ -47,7 +47,7 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.getSolved().getParentCounter(),algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
         }
 
         else if(strategy.equals("astr"))
@@ -60,7 +60,7 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getAllStates(),algorithm.getProcessedStates(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.getSolved().getParentCounter(),algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
         }
     }
 
@@ -116,7 +116,7 @@ public class Manager
         }
 
     }
-    private void saveStats(String path, int parentsLineSize, int allStates, int exploredStates, double time)
+    private void saveStats(String path, int parentsLineSize, int allStates, int exploredStates,int maxDepthOfRecursion, double time)
     {
             File fout = new File(path);
             FileOutputStream fos = null;
@@ -129,7 +129,7 @@ public class Manager
 
                 if(isSolutionFound)
                 {
-                    bw.write(Integer.toString(parentsLineSize));//ew na wszystkie ruchy
+                    bw.write(Integer.toString(parentsLineSize));
 
                 }else bw.write("-1");
                 bw.newLine();
@@ -137,7 +137,7 @@ public class Manager
                 bw.newLine();
                 bw.write(Integer.toString(exploredStates));
                 bw.newLine();
-                bw.write(Integer.toString(parentsLineSize));//maksymalną osiągniętą głębokość rekursji??? nie wiem
+                bw.write(Integer.toString(maxDepthOfRecursion));
                 bw.newLine();
                 bw.write(String.format( "%.3f", time ));
                 bw.close();
