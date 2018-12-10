@@ -33,7 +33,7 @@ public class Manager
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,algorithm.parentInCurrnetNode,algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.getParentsCounter(),algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
 
         }
 

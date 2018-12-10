@@ -22,6 +22,8 @@ public class Node
     private Node parent;
 //tylko na potrzeby astar
     private int cost=-1;
+
+    private int score=0;
     Node()
     { }
 
@@ -34,6 +36,16 @@ public class Node
     public void setCost(int cost)
     {
         this.cost = cost;
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
     }
 
     public void setParentCounter(int parentCounter)

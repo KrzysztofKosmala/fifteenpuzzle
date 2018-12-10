@@ -64,12 +64,14 @@ public class BFS extends Strategies
                             visitedStates++;
                             frontier.add(obj);
                             explored.put(Arrays.toString(obj.getStateInNode()), obj);
-
+                            obj.setParentCounter(getParents(obj));
+                            if(obj.getParentCounter()>maxDepthOfRecursion)
+                                maxDepthOfRecursion=obj.getParentCounter();
                             if (Arrays.equals(obj.getStateInNode(), template))
                             {
                                 solved=obj;
 
-                                parentInCurrnetNode=getParents(obj);
+
                                 return true;
                             }
                         }
