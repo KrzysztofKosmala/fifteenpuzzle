@@ -29,11 +29,10 @@ public class Manager
 
             isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
-           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
-            saveStats(statsPath,algorithm.getParentsCounter(),algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
+            saveStats(statsPath,algorithm.getSolved().getParentCounter(),algorithm.getVisitedStates(),algorithm.getProcessedStates(),algorithm.getMaxDepthOfRecursion(),elapsedTimeMili);
 
         }
 
@@ -43,7 +42,6 @@ public class Manager
 
             isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
-           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);
@@ -56,7 +54,6 @@ public class Manager
 
             isSolutionFound=algorithm.findSolution();
             solutionMoves=algorithm.getFamilyLine();
-           // System.out.println(Arrays.toString(solutionMoves));
             elapsedTimeNano = System.nanoTime() - start;
             elapsedTimeMili = (double)elapsedTimeNano / 1000000.0;
             saveSolution(solutionPath,solutionMoves);

@@ -95,9 +95,5 @@ public class BFS extends Strategies
         return false;
     }
 
-
-
-
-
 }
 

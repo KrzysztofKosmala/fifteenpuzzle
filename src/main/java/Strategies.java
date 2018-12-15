@@ -8,17 +8,13 @@ public abstract class Strategies
     int[] howInt =  new int[4];
 
     private int rows, columns;
-    protected ArrayList<Node> parentsLine = new ArrayList<>();
+    ArrayList<Node> parentsLine = new ArrayList<>();
 
     int parentInCurrnetNode=0;
     int processedStates=0;
     int visitedStates=0;
     int maxDepthOfRecursion=0;
 
-    public Node getSolved()
-    {
-        return solved;
-    }
 
     Strategies(char[] how, int r, int c)
     {
@@ -28,36 +24,8 @@ public abstract class Strategies
 
     }
 
-
-
     public abstract boolean findSolution();
-    public int getParentsCounter()
 
-    {
-        return parentsLine.size();
-    }
-    public ArrayList<Node> getParentsLine()
-    {
-        return parentsLine;
-    }
-
-    char[] getFamilyLine()
-    {
-        parentsLine.clear();
-        parentsLine.add(solved);
-        setFamilyLine();
-
-        String help;
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for(int i=parentsLine.size()-2; i>=0; i--)
-        {
-            stringBuilder.append(parentsLine.get(i).getOperator());
-        }
-        help = stringBuilder.toString();
-
-        return help.toCharArray();
-    }
     Node makeFirstNode(int[] state)
     {
         Node first = new Node();
@@ -69,23 +37,6 @@ public abstract class Strategies
         return first;
     }
 
-
-    protected abstract boolean ifExistsOnFrontier(int[] i );
-    protected abstract int getVisitedStates();
-    protected abstract int getProcessedStates();
-
-
-    private void setTemplate(int r, int c)
-    {
-        this.rows=r;
-        this.columns=c;
-        template = new int[r*c];
-        for(int i=0;i<r*c; i++)
-        {
-            template[i]=i+1;
-        }
-        template[r*c-1]=0;
-    }
     void tabCharToTabInt(char[] how)
     {
         for (int i=0; i<4; i++)
@@ -107,6 +58,28 @@ public abstract class Strategies
         }
 
     }
+
+    protected abstract boolean ifExistsOnFrontier(int[] i );
+
+
+    //getter & setter
+    public Node getSolved()
+    {
+        return solved;
+    }
+    protected abstract int getVisitedStates();
+    protected abstract int getProcessedStates();
+    private void setTemplate(int r, int c)
+    {
+        this.rows=r;
+        this.columns=c;
+        template = new int[r*c];
+        for(int i=0;i<r*c; i++)
+        {
+            template[i]=i+1;
+        }
+        template[r*c-1]=0;
+    }
     void setFamilyLine()
     {
 
@@ -122,7 +95,6 @@ public abstract class Strategies
         help=child.getParent();
         parentsLine.add(help);
     }
-
     int getParents(Node node)
     {
         parentsLine.clear();
@@ -130,8 +102,23 @@ public abstract class Strategies
         setFamilyLine();
         return parentsLine.size()-1;
     }
+    char[] getFamilyLine()
+    {
+        parentsLine.clear();
+        parentsLine.add(solved);
+        setFamilyLine();
 
+        String help;
+        StringBuilder stringBuilder = new StringBuilder();
 
+        for(int i=parentsLine.size()-2; i>=0; i--)
+        {
+            stringBuilder.append(parentsLine.get(i).getOperator());
+        }
+        help = stringBuilder.toString();
+
+        return help.toCharArray();
+    }
     public ArrayList<Node> getParentsLine(Node node)
     {
         parentsLine.clear();
@@ -142,6 +129,15 @@ public abstract class Strategies
     int getMaxDepthOfRecursion()
     {
         return maxDepthOfRecursion;
+    }
+    public int getParentsCounter()
+
+    {
+        return parentsLine.size();
+    }
+    public ArrayList<Node> getParentsLine()
+    {
+        return parentsLine;
     }
 
 

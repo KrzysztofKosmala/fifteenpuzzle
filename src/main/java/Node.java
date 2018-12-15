@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.stream.IntStream;
 
 public class Node
@@ -9,45 +8,97 @@ public class Node
     private int[] parentState ;
     private int[] stateInNode ;
     private int nullLocation;
-
-
-
     private int parentNullLocation;
     private int futureNullLocation=-1;
-
     private int parentCounter;
-
     private char operator;
-
     private Node parent;
-//tylko na potrzeby astar
-    private int cost=-1;
 
+    //tylko na potrzeby astar
+    private int cost=-1;
     private int score=0;
+    //-----------------------
+
+
+
     Node()
     { }
 
+    void move(int T)
+    {
 
+        stateInNode[nullLocation] = stateInNode[nullLocation + T];
+        stateInNode[nullLocation + T] = 0;
+        nullLocation = nullLocation + T;
+
+    }
+
+    boolean checkRange(int T)
+    {
+
+        if(T==1)
+        {
+            for(int i=0; i<columns-1; i++)
+            {
+                if(borders[i]==nullLocation)
+                    return false;
+            }
+        }else if(T==-1)
+        {
+            for(int i=0; i<columns-1; i++)
+            {
+                if(borders[i]+1==nullLocation)
+                    return false;
+            }
+        }
+
+        return nullLocation + T >= 0 && nullLocation + T <= rows*columns-1;
+
+    }
+
+
+
+    //getter & setter
+    void setParentNullLocation2(int parentNullLocation)
+    {
+        this.parentNullLocation = parentNullLocation;
+    }
+    int[] getParentState()
+    {
+        return parentState;
+    }
+    int[] getStateInNode()
+    {
+        return stateInNode;
+    }
+    int getFutureNullLocation()
+    {
+        return futureNullLocation;
+    }
+    int getNullLocation()
+    {
+        return nullLocation;
+    }
+    char getOperator()
+    {
+        return operator;
+    }
     public int getCost()
     {
         return cost;
     }
-
     public void setCost(int cost)
     {
         this.cost = cost;
     }
-
     public int getScore()
     {
         return score;
     }
-
     public void setScore(int score)
     {
         this.score = score;
     }
-
     public void setParentCounter(int parentCounter)
     {
         this.parentCounter = parentCounter;
@@ -63,7 +114,6 @@ public class Node
     public int getParentCounter() {
         return parentCounter;
     }
-
     void setBorders()
     {
         borders= new int[columns-1];
@@ -121,64 +171,6 @@ public class Node
     {
         this.operator = operator;
     }
-    void move(int T)
-    {
-
-        stateInNode[nullLocation] = stateInNode[nullLocation + T];
-        stateInNode[nullLocation + T] = 0;
-        nullLocation = nullLocation + T;
-
-    }
-    void setParentNullLocation2(int parentNullLocation)
-    {
-        this.parentNullLocation = parentNullLocation;
-    }
-
-    boolean checkRange(int T)
-    {
-
-        if(T==1)
-        {
-            for(int i=0; i<columns-1; i++)
-            {
-                if(borders[i]==nullLocation)
-                    return false;
-            }
-        }else if(T==-1)
-        {
-            for(int i=0; i<columns-1; i++)
-            {
-                if(borders[i]+1==nullLocation)
-                    return false;
-            }
-        }
-
-        return nullLocation + T >= 0 && nullLocation + T <= rows*columns-1;
-
-    }
-
-    int[] getParentState()
-    {
-        return parentState;
-    }
-    int[] getStateInNode()
-    {
-        return stateInNode;
-    }
-    int getFutureNullLocation()
-    {
-        return futureNullLocation;
-    }
-    int getNullLocation()
-    {
-        return nullLocation;
-    }
-
-    char getOperator()
-    {
-        return operator;
-    }
-
     Node getParent()
     {
         return parent;

@@ -24,6 +24,7 @@ public class DFS extends Strategies
 
     }
     @Override
+
     public boolean findSolution()
     {
         parentInCurrnetNode=0;
@@ -180,6 +181,9 @@ public class DFS extends Strategies
         return true;
 
     }
+
+
+
     @Override
     protected int getVisitedStates()
     {

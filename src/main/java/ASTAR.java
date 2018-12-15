@@ -4,14 +4,7 @@ import java.util.stream.IntStream;
 
 public class ASTAR extends Strategies
 {
-    private PriorityQueue<Node> frontier = new PriorityQueue<>(10, new Comparator<Node>()
-    {
-        @Override
-        public int compare(Node o1, Node o2)
-        {
-            return o1.getScore()-o2.getScore();
-        }
-    });
+    private PriorityQueue<Node> frontier = new PriorityQueue<>(10, Comparator.comparingInt(Node::getScore));
     private HashMap<String, Node> explored = new HashMap<>();
 
     private int[] howInt; // ustawione na sztywno bo kolejność nie ma znaczenia,
@@ -21,7 +14,7 @@ public class ASTAR extends Strategies
 
     private Node firstNode;
 
-    private boolean isSolutionFound;
+
     ASTAR(char[] how, int[] state, int rows, int columns)
     {
         super(how, rows, columns);
@@ -106,74 +99,52 @@ public class ASTAR extends Strategies
         return false;
     }
 
-  /*  private boolean makeMoves(Node node)
+    @Override
+    protected int getVisitedStates()
+    {
+        return visitedStates;
+    }
+
+    @Override
+    protected int getProcessedStates()
+    {
+        return processedStates;
+    }
+
+    @Override
+    int getParents(Node node)
+    {
+        parentsLine.clear();
+        parentsLine.add(node);
+        setFamilyLine();
+        return parentsLine.size() - 1;
+    }
+
+    @Override
+    void setFamilyLine()
     {
 
-        int j;
-        for (j = 0; j < 4; j++)
+        while (parentsLine.get(parentsLine.size() - 1).getCost() != -1)
         {
-            if (node.checkRange(howInt[j]))
-            {
-
-
-                if ((node.getNullLocation() + howInt[j]) != node.getParentNullLocation())
-                {
-
-                    Node newNode = new Node();
-
-                    newNode.setParent(node);
-                    newNode.setParentState(node.getStateInNode());
-                    newNode.setParentNullLocation();
-                    newNode.setStateInNode();
-                    newNode.setNullLocation2();
-                    newNode.setParentNullLocation();
-                    newNode.setOperator(howCharOperator[j]);
-                    newNode.move(howInt[j]);
-
-                    if (!ifExistOnExplored(newNode.getStateInNode())  )
-                    {
-                        if (Arrays.equals("hamm".toCharArray(), howChar))
-                        {
-                            newNode.setCost(getHammingDistance(newNode.getStateInNode()));
-                        }
-                        else if (Arrays.equals("manh".toCharArray(), howChar))
-                        {
-                            newNode.setCost(getManhattanDistance(newNode.getStateInNode()));
-                        }
-                        int depthOfRecursion=getParents(newNode);
-                        if(maxDepthOfRecursion<depthOfRecursion)
-                        maxDepthOfRecursion=depthOfRecursion;
-
-                            newNode.setScore(depthOfRecursion + newNode.getCost());
-                            visitedStates++;
-
-                            frontier.add(newNode);
-
-                            if (Arrays.equals(newNode.getStateInNode(), template))
-                            {
-                                newNode.setParentCounter(depthOfRecursion);
-                                solved = newNode;
-                                return true;
-                            }
-
-                    }
-
-                }
-                explored.put(Arrays.toString(node.getStateInNode()),node);
-                processedStates++;
-                frontier.remove(node);
-            }
+            setFamilyLineLoop(parentsLine.get(parentsLine.size() - 1));
         }
 
-
-
-    return false;
-    }*/
-
+    }
     private boolean ifExistOnExplored(int[] i)
     {
         return explored.containsKey(Arrays.toString(i));
     }
+    @Override
+    protected boolean ifExistsOnFrontier(int[] i)
+    {
+        for (Node a : frontier)
+        {
+            if (Arrays.equals(a.getStateInNode(), i)) return true;
+
+        }
+        return false;
+    }
+
 
     private int getHammingDistance(int[] tab)
     {
@@ -219,51 +190,9 @@ public class ASTAR extends Strategies
         return IntStream.range(0, tab.length).filter(i -> 0 == tab[i]).findFirst().orElse(-1);
     }
 
-    @Override
-    protected boolean ifExistsOnFrontier(int[] i)
-    {
-        for (Node a : frontier)
-        {
-            if (Arrays.equals(a.getStateInNode(), i)) return true;
-
-        }
-        return false;
-    }
-
-
-    @Override
-    protected int getVisitedStates()
-    {
-        return visitedStates;
-    }
-
-    @Override
-    protected int getProcessedStates()
-    {
-        return processedStates;
-    }
 
 
 
 
-    @Override
-    int getParents(Node node)
-    {
-        parentsLine.clear();
-        parentsLine.add(node);
-        setFamilyLine();
-        return parentsLine.size() - 1;
-    }
-
-    @Override
-    void setFamilyLine()
-    {
-
-        while (parentsLine.get(parentsLine.size() - 1).getCost() != -1)
-        {
-            setFamilyLineLoop(parentsLine.get(parentsLine.size() - 1));
-        }
-
-    }
 
 }
