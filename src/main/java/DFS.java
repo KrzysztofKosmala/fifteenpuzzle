@@ -27,7 +27,7 @@ public class DFS extends Strategies
 
     public boolean findSolution()
     {
-        parentInCurrnetNode=0;
+        parentsInCurrentNode =0;
 
         while (!explored.containsKey(Arrays.toString(template)))//do ilości ustalonej nie do tego warunku!
             {
@@ -72,11 +72,11 @@ public class DFS extends Strategies
                                 }
                                 i++;
 
-                                parentInCurrnetNode=obj.getParentCounter();
+                                parentsInCurrentNode =obj.getParentCounter();
 
-                                if(parentInCurrnetNode>maxDepthOfRecursion)
+                                if(parentsInCurrentNode >maxDepthOfRecursion)
                                 {
-                                    maxDepthOfRecursion=parentInCurrnetNode;
+                                    maxDepthOfRecursion= parentsInCurrentNode;
                                 }
                             }
 
@@ -93,7 +93,7 @@ public class DFS extends Strategies
 
                 */
 
-                    if(parentInCurrnetNode>=20 && i!=0)
+                    if(parentsInCurrentNode >=20 && i!=0)
                 {
                     if (!ifExistOnExplored(frontier.getFirst().getParentState()))
                     {
@@ -144,7 +144,7 @@ public class DFS extends Strategies
 
 
                 }
-                parentInCurrnetNode = 0;
+                parentsInCurrentNode = 0;
             }
 
         return false;

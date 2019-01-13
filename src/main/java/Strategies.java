@@ -10,7 +10,7 @@ public abstract class Strategies
     private int rows, columns;
     ArrayList<Node> parentsLine = new ArrayList<>();
 
-    int parentInCurrnetNode=0;
+    int parentsInCurrentNode =0;
     int processedStates=0;
     int visitedStates=0;
     int maxDepthOfRecursion=0;
